@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Food Browser</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+
+
+{#  todo: only for dev  #}
+<script type="text/javascript">
+    function confirm_redirect() {
+         if (window.confirm('By clicking this link you will reach a development area, \n Are you sure you want to go there?')){
+
+             //REDIRECT
+             window.location.href = "{{ url_for('main.mainSearch') }}";
+         }
+         else{
+            //DO NOTHING AND STAY IN THE SAME PAGE
+            return false;
+         }
+    };
+</script>
+{#  todo: only for dev    #}
+
+
+</head>
+
+<body>
+    <section class="hero is-primary is-fullheight">
+
+        <div class="hero-head">
+            <nav class="navbar">
+                <div class="container">
+
+                    <div id="navbarMenuHeroA" class="navbar-menu">
+                        <div class="navbar-end">
+
+                            <a href="javascript:void(0);" onclick="confirm_redirect();" class="navbar-item">
+                                search
+                            </a>
+
+                            {% if not current_user.is_authenticated %}
+                            <a href="{{ url_for('auth.login') }}" class="navbar-item">
+                                Login
+                            </a>
+                            {% endif %}
+                            {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('main.favorites') }}" class="navbar-item">
+                                Favorites
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="hero-body">
+            <div class="container has-text-centered">
+               {% block content %}
+               {% endblock %}
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

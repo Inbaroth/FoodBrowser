@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  Welcome, {{ name }}!
+</h1>
+{% if current_user.is_authenticated %}
+<button>
+    {#TODO: add styling to the button#}
+    <a href="{{ url_for('main.foodSearch') }}" class="">
+        Search Food
+    </a>
+</button>
+<br/>
+<button>
+    {#TODO: add styling to the button#}
+    <a href="{{ url_for('auth.logout') }}" class="">
+        Logout
+    </a>
+</button>
+{% endif %}
+{% endblock %}

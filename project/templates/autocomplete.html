@@ -1,0 +1,62 @@
+{#TODO: an example of getting responses from server while typing
+    and not by clicking on a button.
+    further implementation is to get results containing text & images
+#}
+
+{#TODO:  styling is required#}
+
+<!doctype html>
+<html>
+<head>
+	<title>Autocomplete input suggestion</title>
+
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
+	<script>
+		$(function() {
+			$("#searchBox").autocomplete({
+				source : function(request, response) {
+					$.ajax({
+						type: "POST",
+						url : "http://localhost:8080/search",
+						dataType : "json",
+						cache: false,
+						data : {
+							q : request.term
+						},
+						success : function(data) {
+							//alert(data);
+							//console.log(data);
+							response(data);
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							console.log(textStatus + " " + errorThrown);
+						}
+					});
+				},
+				minLength : 2
+			});
+		});
+	</script>
+</head>
+<body>
+
+	<div style="width: 600px; margin: auto;">
+		<h2 class="title">Autocomplete input suggestion</h2>
+		<p style="width: 900px; margin: auto;">
+			<label>Search Here</label>&nbsp;
+            <br/>&nbsp;
+            <input type="text" name="search" id="searchBox"/>
+
+            {% if current_user.is_authenticated %}
+
+            {#TODO: set a logical location to the button#}
+            <a href="{{ url_for('main.favorites') }}" class="navbar-item">
+                CLOSE SEARCH
+            </a>
+            {% endif %}
+		</p>
+	</div>
+</body>
